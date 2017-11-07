@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI onLoad="Ribbon_Load" xmlns="http://schemas.microsoft.com/office/2006/01/customui">
+    <ribbon>
+      <tabs>
+        <!-- 
+        This is the built-in tab called Add-ins, it's shared by other add-ins for Word; don't use.
+        
+        <tab idMso="TabAddIns">
+          <group id="group1" label="group1" />
+        </tab>
+        -->
+        
+        <tab id="WordTime" label="WordTime">          
+            <group id="Branding" label="WordTime">              
+              <button id="IconButton" getImage="GetCustomImage1" size="large"/>                                          
+            </group>
+            
+            <group id="Settings">
+              <button id="LoginButton" label="Login" onAction="OnTextButton"/>
+              <button id="SettingsButton" label="Settings" onAction="OnTextButton"/>
+              <button id="AboutButton" label="About" onAction="OnTextButton"/>              
+            </group>
+          
+          <group id="Help">
+            <button id="FAQButton" label="Open FAQ" onAction="OnTextButton" getImage="GetCustomImage2" size="large"/>
+            <button id="TourButton" label="View Tour" onAction="OnTextButton"  getImage="GetCustomImage3" size="large"/>            
+          </group>              
+        </tab>
+      </tabs>
+    </ribbon>
+</customUI>
