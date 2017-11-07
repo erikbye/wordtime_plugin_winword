@@ -3,27 +3,26 @@
     <ribbon>
       <tabs>
         <!-- 
-        This is the built-in tab called Add-ins, it's shared by other add-ins for Word; don't use.
-        
+        This is the built-in tab called Add-ins, shared by other add-ins for Word; don't use.        
         <tab idMso="TabAddIns">
           <group id="group1" label="group1" />
         </tab>
-        -->
-        
+        -->        
         <tab id="WordTime" label="WordTime">          
             <group id="Branding" label="WordTime">              
-              <button id="IconButton" getImage="GetCustomImage1" size="large"/>                                          
+              <button id="IconButton" getImage="GetCustomImage1" size="large" onAction="OnWordTimeButton"/>                                          
             </group>
             
             <group id="Settings">
-              <button id="LoginButton" label="Login" onAction="OnTextButton"/>
-              <button id="SettingsButton" label="Settings" onAction="OnTextButton"/>
-              <button id="AboutButton" label="About" onAction="OnTextButton"/>              
+              <!-- TODO: Show login button when logged out and vice versa -->
+              <button id="LoginButton" label="Login" onAction="OnLoginButton"/>
+              <button id="SettingsButton" label="Settings" onAction="OnSettingsButton"/>
+              <button id="AboutButton" label="About" onAction="OnAboutButton"/>              
             </group>
           
           <group id="Help">
-            <button id="FAQButton" label="Open FAQ" onAction="OnTextButton" getImage="GetCustomImage2" size="large"/>
-            <button id="TourButton" label="View Tour" onAction="OnTextButton"  getImage="GetCustomImage3" size="large"/>            
+            <button id="FAQButton" label="Open FAQ" onAction="OnFAQButton" getImage="GetCustomImage2" size="large"/>
+            <button id="TourButton" label="View Tour" onAction="OnTourButton"  getImage="GetCustomImage3" size="large"/>            
           </group>              
         </tab>
       </tabs>

@@ -1,6 +1,6 @@
-﻿namespace WordTimePluginWin
+﻿namespace WordTimePluginWin.Forms
 {
-    partial class LoginForm
+    partial class TourForm
     {
         /// <summary>
         /// Required designer variable.
@@ -30,13 +30,13 @@
         {
             this.SuspendLayout();
             // 
-            // LoginForm
+            // TourForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(695, 434);
-            this.Name = "LoginForm";
-            this.Text = "LoginForm";
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Name = "TourForm";
+            this.Text = "WordTime Tour";
             this.ResumeLayout(false);
 
         }

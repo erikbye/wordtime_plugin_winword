@@ -8,7 +8,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using WordTimePluginWin.Properties;
+using WordTimePluginWin;
+using WordTimePluginWin.Forms;
 using Office = Microsoft.Office.Core;
+using Word = Microsoft.Office.Interop.Word;
 
 // TODO:  Follow these steps to enable the Ribbon (XML) item:
 
@@ -27,7 +30,6 @@ using Office = Microsoft.Office.Core;
 // 3. Assign attributes to the control tags in the Ribbon XML file to identify the appropriate callback methods in your code.  
 
 // For more information, see the Ribbon XML documentation in the Visual Studio Tools for Office Help.
-
 
 namespace WordTimePluginWin
 {
@@ -95,9 +97,50 @@ namespace WordTimePluginWin
             return Resources.FAQIcon;
         }
 
+        // TODO: need to fix this icon, ugly edges
         public Bitmap GetCustomImage3(Office.IRibbonControl control)
         {
             return Resources.TourIcon;
         }
+
+        #region Button Callbacks
+
+        public void OnWordTimeButton(Office.IRibbonControl control)
+        {
+            var wordTimeForm = new WordTimeForm();
+            wordTimeForm.Show();
+        }
+
+        public void OnLoginButton(Office.IRibbonControl control)
+        {
+            var loginForm = new LoginForm();
+            loginForm.Show();
+        }
+
+        public void OnSettingsButton(Office.IRibbonControl control)
+        {
+            var settingsForm = new SettingsForm();
+            settingsForm.Show();
+        }
+
+        public void OnAboutButton(Office.IRibbonControl control)
+        {
+            var aboutForm = new AboutForm();
+            aboutForm.Show();
+        }
+
+        public void OnFAQButton(Office.IRibbonControl control)
+        {
+            var faqForm = new FAQForm();
+            faqForm.Show();
+        }
+
+        public void OnTourButton(Office.IRibbonControl control)
+        {
+            var tourForm = new TourForm();
+            tourForm.Show();
+        }
+
+        #endregion
     }
 }

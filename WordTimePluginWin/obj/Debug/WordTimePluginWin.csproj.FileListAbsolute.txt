@@ -23,3 +23,8 @@ C:\Users\erikb\OneDrive\dev\WordTimePluginWin\WordTimePluginWin\obj\Debug\WordTi
 C:\Users\erikb\OneDrive\dev\WordTimePluginWin\WordTimePluginWin\obj\Debug\WordTimePluginWin.dll
 C:\Users\erikb\OneDrive\dev\WordTimePluginWin\WordTimePluginWin\obj\Debug\WordTimePluginWin.pdb
 C:\Users\erikb\OneDrive\dev\WordTimePluginWin\WordTimePluginWin\obj\Debug\WordTimePluginWin.LoginForm.resources
+C:\Users\erikb\OneDrive\dev\WordTimePluginWin\WordTimePluginWin\obj\Debug\WordTimePluginWin.Forms.AboutForm.resources
+C:\Users\erikb\OneDrive\dev\WordTimePluginWin\WordTimePluginWin\obj\Debug\WordTimePluginWin.Forms.FAQForm.resources
+C:\Users\erikb\OneDrive\dev\WordTimePluginWin\WordTimePluginWin\obj\Debug\WordTimePluginWin.Forms.SettingsForm.resources
+C:\Users\erikb\OneDrive\dev\WordTimePluginWin\WordTimePluginWin\obj\Debug\WordTimePluginWin.Forms.TourForm.resources
+C:\Users\erikb\OneDrive\dev\WordTimePluginWin\WordTimePluginWin\obj\Debug\WordTimePluginWin.WordTimeForm.resources
