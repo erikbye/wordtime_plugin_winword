@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using Microsoft.Office.Tools.Word;
 using WordTimePluginWin.Properties;
 using WordTimePluginWin;
 using WordTimePluginWin.Forms;
@@ -40,8 +42,10 @@ namespace WordTimePluginWin
 
         public Ribbon()
         {
-        }
+            
 
+        }
+        
         #region IRibbonExtensibility Members
 
         public string GetCustomUI(string ribbonID)
@@ -86,7 +90,7 @@ namespace WordTimePluginWin
         #endregion
 
         // Alternate method of image loading: https://msdn.microsoft.com/en-us/library/aa338202.aspx?f=255&MSPPError=-2147217396#OfficeCustomizingRibbonUIforDevelopers_Images
-        // TODO: One function that takes the image name as a parameter
+        // TODO: One method that takes the image name as a parameter
         public Bitmap GetCustomImage1(Office.IRibbonControl control)
         {
             return Resources.icon;

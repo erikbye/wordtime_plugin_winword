@@ -13,10 +13,23 @@ namespace WordTimePluginWin
     {
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            // TODO: Check if user reaches server, if not, display an message and let user know time stamps will be stored locally and sent to server when they are back online
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
+            
+        }
+                
+        private void DocumentBeforeClose()
+        {
+            Document vstoDoc = Globals.Factory.GetVstoObject(this.Application.ActiveDocument);
+            vstoDoc.BeforeClose += new System.ComponentModel.CancelEventHandler(ThisDocument_BeforeClose);
+        }
+
+        void ThisDocument_BeforeClose(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            
         }
 
         #region VSTO generated code
