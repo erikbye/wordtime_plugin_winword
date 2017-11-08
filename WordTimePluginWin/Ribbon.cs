@@ -99,6 +99,9 @@ namespace WordTimePluginWin
 
         public void OnWordTimeButton(Office.IRibbonControl control)
         {
+            // TODO: Show connection status in statusbar
+            // Globals.ThisAddIn.Application.StatusBar = "Test";
+
             var wordTimeForm = new WordTimeForm();
             wordTimeForm.Show();
         }
