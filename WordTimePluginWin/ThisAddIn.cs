@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+using Microsoft.Office.Tools.Word;
+
 using WordInterop = Microsoft.Office.Interop.Word;
 using Office = Microsoft.Office.Core;
-using Microsoft.Office.Tools.Word;
 using time = System.DateTime;
 
 namespace WordTimePluginWin
@@ -18,30 +16,30 @@ namespace WordTimePluginWin
 
         #region Add-in and document events
 
-        private void ThisAddIn_Startup(object sender, System.EventArgs e)
+        private void ThisAddIn_Startup(object sender, EventArgs e)
         {
             // TODO: Check if user reaches server, if not, display a message in the statusbar
             // and let user know time stamps will be stored locally and sent 
             // to server when they are back online
             
             // Register event handlers    
-            this.Application.DocumentOpen +=
-                new WordInterop.ApplicationEvents4_DocumentOpenEventHandler(DocumentSelectionChange);
+            Application.DocumentOpen +=
+                DocumentSelectionChange;
 
-            this.Application.DocumentBeforeSave +=
-                new WordInterop.ApplicationEvents4_DocumentBeforeSaveEventHandler(DocumentBeforeSave);
+            Application.DocumentBeforeSave +=
+                DocumentBeforeSave;
 
-            this.Application.DocumentBeforeClose +=
-                new WordInterop.ApplicationEvents4_DocumentBeforeCloseEventHandler(DocumentBeforeClose);
+            Application.DocumentBeforeClose +=
+                DocumentBeforeClose;
             
-            ((WordInterop.ApplicationEvents4_Event)this.Application).NewDocument +=
-                new WordInterop.ApplicationEvents4_NewDocumentEventHandler(DocumentSelectionChange);
+            ((WordInterop.ApplicationEvents4_Event)Application).NewDocument +=
+                DocumentSelectionChange;
 
             streamWriter.WriteLine("WordTime loaded. " + time.Now.GetTimestamp());
             streamWriter.Flush();
         }
 
-        private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
+        private void ThisAddIn_Shutdown(object sender, EventArgs e)
         {            
             streamWriter.WriteLine("WordTime shutdown. " + time.Now.GetTimestamp());
             streamWriter.Flush();
@@ -49,20 +47,32 @@ namespace WordTimePluginWin
 
         private void DocumentBeforeSave(WordInterop.Document doc, ref bool saveasui, ref bool cancel)
         {
-            Document vstoDoc = Globals.Factory.GetVstoObject(this.Application.ActiveDocument);
-            vstoDoc.BeforeSave += new Microsoft.Office.Tools.Word.SaveEventHandler(ThisDocument_BeforeSave);
+            Document vstoDoc = Globals.Factory.GetVstoObject(Application.ActiveDocument);
+            vstoDoc.BeforeSave += ThisDocument_BeforeSave;
         }
         
         // TODO: triggers twice on save, and not on save as
-        void ThisDocument_BeforeSave(object sender, Microsoft.Office.Tools.Word.SaveEventArgs e)
+        void ThisDocument_BeforeSave(object sender, SaveEventArgs e)
         {
-            var documentName = this.Application.ActiveDocument.Name;
+            var docProperties = (Office.DocumentProperties) Application.ActiveDocument.BuiltInDocumentProperties;
+            var totalEditingTime = docProperties["Total editing time"];
 
+            var documentName = Application.ActiveDocument.Name;
+
+           // var fileName = Application.ActiveDocument.FullName;
+           // var fileInfo = new FileInfo(fileName);
+           // var creationTime = fileInfo.CreationTime.Date.ToString();
+           
             streamWriter.WriteLine("Document: " + documentName + " was saved. " + time.Now.GetTimestamp());
+
+            if (totalEditingTime.Value != null)
+            {
+                streamWriter.WriteLine("Total editing time (minutes): " + totalEditingTime.Value.ToString());
+            }            
             streamWriter.Flush();            
         }
 
-        private void DocumentSelectionChange(Microsoft.Office.Interop.Word.Document Doc)
+        private void DocumentSelectionChange(WordInterop.Document Doc)
         {
             Document vstoDoc = Globals.Factory.GetVstoObject(Application.ActiveDocument);
             vstoDoc.SelectionChange += ThisDocument_SelectionChange;
@@ -79,12 +89,12 @@ namespace WordTimePluginWin
 
         private void DocumentBeforeClose(WordInterop.Document doc, ref bool cancel)
         {
-            Document vstoDoc = Globals.Factory.GetVstoObject(this.Application.ActiveDocument);
-            vstoDoc.BeforeClose += new System.ComponentModel.CancelEventHandler(ThisDocument_BeforeClose);
+            Document vstoDoc = Globals.Factory.GetVstoObject(Application.ActiveDocument);
+            vstoDoc.BeforeClose += ThisDocument_BeforeClose;
         }
 
         // TODO: this doesn't seem to trigger
-        void ThisDocument_BeforeClose(object sender, System.ComponentModel.CancelEventArgs e)
+        void ThisDocument_BeforeClose(object sender, CancelEventArgs e)
         {
             streamWriter.WriteLine("Documented closed. " + time.Now.GetTimestamp());
             streamWriter.Flush();
@@ -100,13 +110,13 @@ namespace WordTimePluginWin
         /// </summary>
         private void InternalStartup()
         {
-            this.Startup += new System.EventHandler(ThisAddIn_Startup);
-            this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
+            Startup += ThisAddIn_Startup;
+            Shutdown += ThisAddIn_Shutdown;
         }
 
         #endregion
 
-        protected override Microsoft.Office.Core.IRibbonExtensibility CreateRibbonExtensibilityObject()
+        protected override Office.IRibbonExtensibility CreateRibbonExtensibilityObject()
         {
             return new Ribbon();
         }
