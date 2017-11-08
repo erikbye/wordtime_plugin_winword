@@ -92,7 +92,7 @@ namespace WordTimePluginWin
         public stdole.IPictureDisp GetCustomImage(string name)
         {
             var image = (Bitmap) Resources.ResourceManager.GetObject(name);
-            return image != null ? PictureConveter.ImageToPictureDisp(image) : null;
+            return image != null ? PictureConverter.ImageToPictureDisp(image) : null;
         }
 
         #region Button Callbacks
@@ -136,9 +136,9 @@ namespace WordTimePluginWin
         #endregion
     }
 
-    internal class PictureConveter : AxHost
+    internal class PictureConverter : AxHost
     {
-        public PictureConveter()
+        public PictureConverter()
             : base(string.Empty)
         {
         }
