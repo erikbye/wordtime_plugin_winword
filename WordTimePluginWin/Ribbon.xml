@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<customUI onLoad="Ribbon_Load" xmlns="http://schemas.microsoft.com/office/2006/01/customui">
+<customUI onLoad="Ribbon_Load" loadImage="GetCustomImage" xmlns="http://schemas.microsoft.com/office/2006/01/customui">
     <ribbon>
       <tabs>
         <!-- 
@@ -10,7 +10,7 @@
         -->        
         <tab id="WordTime" label="WordTime">          
             <group id="Branding" label="WordTime">              
-              <button id="IconButton" getImage="GetCustomImage1" size="large" onAction="OnWordTimeButton"/>                                          
+              <button id="IconButton" image="icon" size="large" onAction="OnWordTimeButton"/>                                          
             </group>
             
             <group id="Settings">
@@ -21,8 +21,8 @@
             </group>
           
           <group id="Help">
-            <button id="FAQButton" label="Open FAQ" onAction="OnFAQButton" getImage="GetCustomImage2" size="large"/>
-            <button id="TourButton" label="View Tour" onAction="OnTourButton"  getImage="GetCustomImage3" size="large"/>            
+            <button id="FAQButton" label="Open FAQ" onAction="OnFAQButton" image="FAQIcon" size="large"/>
+            <button id="TourButton" label="View Tour" onAction="OnTourButton" image="TourIcon" size="large"/>            
           </group>              
         </tab>
       </tabs>

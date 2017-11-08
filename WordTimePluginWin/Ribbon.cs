@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using Microsoft.Office.Tools.Word;
 using WordTimePluginWin.Properties;
 using WordTimePluginWin;
 using WordTimePluginWin.Forms;
@@ -89,22 +89,10 @@ namespace WordTimePluginWin
 
         #endregion
 
-        // Alternate method of image loading: https://msdn.microsoft.com/en-us/library/aa338202.aspx?f=255&MSPPError=-2147217396#OfficeCustomizingRibbonUIforDevelopers_Images
-        // TODO: One method that takes the image name as a parameter
-        public Bitmap GetCustomImage1(Office.IRibbonControl control)
+        public stdole.IPictureDisp GetCustomImage(string name)
         {
-            return Resources.icon;
-        }
-
-        public Bitmap GetCustomImage2(Office.IRibbonControl control)
-        {
-            return Resources.FAQIcon;
-        }
-
-        // TODO: need to fix this icon, ugly edges
-        public Bitmap GetCustomImage3(Office.IRibbonControl control)
-        {
-            return Resources.TourIcon;
+            var image = (Bitmap) Resources.ResourceManager.GetObject(name);
+            return image != null ? PictureConveter.ImageToPictureDisp(image) : null;
         }
 
         #region Button Callbacks
@@ -146,5 +134,16 @@ namespace WordTimePluginWin
         }
 
         #endregion
+    }
+
+    internal class PictureConveter : AxHost
+    {
+        public PictureConveter()
+            : base(string.Empty)
+        {
+        }
+
+        public static stdole.IPictureDisp ImageToPictureDisp(Image image) => (stdole.IPictureDisp) GetIPictureDispFromPicture(image);
+        public static stdole.IPictureDisp IconToPictureDisp(Icon icon) => ImageToPictureDisp(icon.ToBitmap());
     }
 }
