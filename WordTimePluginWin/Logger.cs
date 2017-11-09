@@ -1,12 +1,14 @@
 ﻿using System;
 using System.IO;
+using WordTimePluginWin.Extensions;
 
 namespace WordTimePluginWin
 {
-    class Logger
+    public class Logger
     {
         private static readonly string _userHomePath = Environment.GetEnvironmentVariable("homepath");
         private readonly StreamWriter _streamWriter;
+
         public Logger()
         {
             _streamWriter = new StreamWriter(_userHomePath + @"\wordtime.log", true);

@@ -18,11 +18,11 @@ namespace WordTimePluginWin
             // and let user know time stamps will be stored locally and sent 
             // to server when they are back online
             // TODO 2: If online: check if user is logged in, if not, display LoginForm
-            
-            // Register event handlers                
+
+            // Registering event handlers
             Application.DocumentOpen += DocumentSelectionChange;
             Application.DocumentBeforeSave += DocumentBeforeSave;
-            Application.DocumentBeforeClose += DocumentBeforeClose;
+            Application.DocumentBeforeClose += DocumentBeforeClose;            
             ((WordInterop.ApplicationEvents4_Event)Application).NewDocument += DocumentSelectionChange;
 
             _logger.Log("WordTime loaded");
@@ -65,9 +65,11 @@ namespace WordTimePluginWin
             vstoDoc.SelectionChange += ThisDocument_SelectionChange;
         }
 
-        // Event fires on selection of text, deselection, return (newline), 
-        // arrow keys, but not on backspace, nor if you just keep typing 
-        // without using return
+        /// <summary>
+        /// SelectionChange event fires on text selection, deslection, return 
+        /// (newline), and arrow keys, but not on backspace, nor if you just 
+        /// keep typing without using return.
+        /// </summary>
         private void ThisDocument_SelectionChange(object sender, SelectionEventArgs e)
         {
             var documentName = Application.ActiveDocument.Name;
@@ -81,7 +83,7 @@ namespace WordTimePluginWin
             vstoDoc.BeforeClose += ThisDocument_BeforeClose;
         }
 
-        // TODO: this doesn't seem to trigger, and Word seems to use too much time closing the document
+        // TODO: this doesn't seem to trigger, and Word seems to use too much time closing the document?
         private void ThisDocument_BeforeClose(object sender, CancelEventArgs e)
         {
             var documentName = Application.ActiveDocument.Name;
