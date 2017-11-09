@@ -7,8 +7,6 @@ namespace WordTimePluginWin
         private string _documentName;
         private string _fullName;
 
-        readonly Logger _logger = new Logger(@"\heartbeat.log");
-
         public Heartbeat()
         {
             _documentName = "";
@@ -23,11 +21,11 @@ namespace WordTimePluginWin
             // Word count, Character count, Line count, Paragraph count
 
             this._documentName = document.Name;
-            this._fullName = document.FullName;            
+            this._fullName = document.FullName;
 
             // logging is just for testing
-            _logger.Log("_documentName: " + _documentName);
-            _logger.Log("_fullName: " + _fullName);
+            Logger.Log("_documentName: " + _documentName);
+            Logger.Log("_fullName: " + _fullName);
         }
     }
 }

@@ -4,23 +4,14 @@ using WordTimePluginWin.Extensions;
 
 namespace WordTimePluginWin
 {
-    internal class Logger
+    internal static class Logger
     {
-        private readonly StreamWriter _streamWriter;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="filepath">filepath root is user's homefolder</param>
-        public Logger(string filepath)
+        private static readonly StreamWriter _streamWriter = new StreamWriter(Config.Homepath + @"\wordtime.log")
         {
-            _streamWriter = new StreamWriter(Config.Homepath + filepath, true)
-            {
-                AutoFlush = true                
-            };            
-        }
+            AutoFlush = true
+        };
 
-        public void Log(string message)
+        public static void Log(string message)
         {        
             _streamWriter.WriteLine(message + ": " + DateTime.Now.GetTimestamp());
         }

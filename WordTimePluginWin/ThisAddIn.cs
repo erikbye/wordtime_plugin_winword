@@ -9,7 +9,6 @@ namespace WordTimePluginWin
     public partial class ThisAddIn
     {
         private readonly Heartbeat _heartbeat = new Heartbeat();
-        private readonly Logger _logger = new Logger(@"\wordtime.log");
 
         #region Add-in and document events
 
@@ -26,12 +25,12 @@ namespace WordTimePluginWin
             Application.DocumentBeforeClose += DocumentBeforeClose;            
             ((WordInterop.ApplicationEvents4_Event)Application).NewDocument += DocumentSelectionChange;
 
-            _logger.Log("WordTime loaded");
+            Logger.Log("WordTime loaded");
         }
 
         private void ThisAddIn_Shutdown(object sender, EventArgs e)
         {
-            _logger.Log("WordTime shutdown");
+            Logger.Log("WordTime shutdown");
         }
 
         private void DocumentBeforeSave(WordInterop.Document doc, ref bool saveasui, ref bool cancel)
@@ -48,11 +47,11 @@ namespace WordTimePluginWin
 
             var documentName = Application.ActiveDocument.Name;
 
-            _logger.Log("Document: " + documentName + " was saved. ");
+            Logger.Log("Document: " + documentName + " was saved. ");
 
             if (totalEditingTime.Value != null)
             {
-                _logger.Log("Total editing time (minutes): " + totalEditingTime.Value.ToString());
+                Logger.Log("Total editing time (minutes): " + totalEditingTime.Value.ToString());
             }            
         }
 
@@ -74,7 +73,7 @@ namespace WordTimePluginWin
             
             _heartbeat.Send(ref document);
 
-            _logger.Log("Selection changed, working on document " + documentName);
+            Logger.Log("Selection changed, working on document " + documentName);
         }
 
         private void DocumentBeforeClose(WordInterop.Document doc, ref bool cancel)
@@ -87,7 +86,7 @@ namespace WordTimePluginWin
         private void ThisDocument_BeforeClose(object sender, CancelEventArgs e)
         {
             var documentName = Application.ActiveDocument.Name;
-            _logger.Log("Document closed: " + documentName);
+            Logger.Log("Document closed: " + documentName);
         }
 
         #endregion
