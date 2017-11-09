@@ -187,6 +187,7 @@
     <Compile Include="Forms\TourForm.Designer.cs">
       <DependentUpon>TourForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
