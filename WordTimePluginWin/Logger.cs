@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.IO;
 using WordTimePluginWin.Extensions;
 
@@ -9,15 +8,21 @@ namespace WordTimePluginWin
     {
         private readonly StreamWriter _streamWriter;
 
-        public Logger()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filepath">filepath root is user's homefolder</param>
+        public Logger(string filepath)
         {
-            _streamWriter = new StreamWriter(Config.Homepath + @"\wordtime.log", true);
+            _streamWriter = new StreamWriter(Config.Homepath + filepath, true)
+            {
+                AutoFlush = true                
+            };            
         }
 
         public void Log(string message)
         {        
             _streamWriter.WriteLine(message + ": " + DateTime.Now.GetTimestamp());
-            _streamWriter.Flush();
         }
     }
 }

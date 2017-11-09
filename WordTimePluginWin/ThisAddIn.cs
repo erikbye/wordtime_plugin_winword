@@ -7,8 +7,9 @@ using Office = Microsoft.Office.Core;
 namespace WordTimePluginWin
 {
     public partial class ThisAddIn
-    {        
-        private readonly Logger _logger = new Logger();
+    {
+        private readonly Heartbeat _heartbeat = new Heartbeat();
+        private readonly Logger _logger = new Logger(@"\wordtime.log");
 
         #region Add-in and document events
 
@@ -47,10 +48,6 @@ namespace WordTimePluginWin
 
             var documentName = Application.ActiveDocument.Name;
 
-            // var fileName = Application.ActiveDocument.FullName;
-            // var fileInfo = new FileInfo(fileName);
-            // var creationTime = fileInfo.CreationTime.Date.ToString();
-
             _logger.Log("Document: " + documentName + " was saved. ");
 
             if (totalEditingTime.Value != null)
@@ -72,7 +69,10 @@ namespace WordTimePluginWin
         /// </summary>
         private void ThisDocument_SelectionChange(object sender, SelectionEventArgs e)
         {
+            var document = Application.ActiveDocument;
             var documentName = Application.ActiveDocument.Name;
+            
+            _heartbeat.Send(ref document);
 
             _logger.Log("Selection changed, working on document " + documentName);
         }
@@ -110,6 +110,5 @@ namespace WordTimePluginWin
         {
             return new Ribbon();
         }
-
     }
 }
