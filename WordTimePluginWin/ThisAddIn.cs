@@ -59,7 +59,7 @@ namespace WordTimePluginWin
             }            
         }
 
-        private void DocumentSelectionChange(WordInterop.Document Doc)
+        private void DocumentSelectionChange(WordInterop.Document doc)
         {            
             var vstoDoc = Globals.Factory.GetVstoObject(Application.ActiveDocument);
             vstoDoc.SelectionChange += ThisDocument_SelectionChange;
