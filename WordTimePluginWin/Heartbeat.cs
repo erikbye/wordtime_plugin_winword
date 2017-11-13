@@ -1,6 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Text;
 using Microsoft.Office.Interop.Word;
+using RabbitMQ.Client;
+
 using WordTimePluginWin.Extensions;
+using Task = System.Threading.Tasks.Task;
 
 namespace WordTimePluginWin {
     internal class Heartbeat {
@@ -9,7 +15,8 @@ namespace WordTimePluginWin {
         private string _fullName;
         private DateTime _start;
 
-        public Heartbeat() {
+        public Heartbeat()
+        {
             _documentName = "";
             _fullName = "";
         }
@@ -26,9 +33,12 @@ namespace WordTimePluginWin {
 
                     Logger.Log("more than 30 seconds passed");
 
-                    // Send our heartbeat to the server here
+                    // TODO: Create a heartbeat object
                     this._documentName = document.Name;
                     this._fullName = document.FullName;
+                   
+                    // TODO: Send heartbeat to message broker
+                    Task.Run(() => Messager.Send(_documentName));
 
                     Logger.Log("_documentName: " + _documentName);
                     Logger.Log("_fullName: " + _fullName);
@@ -36,7 +46,7 @@ namespace WordTimePluginWin {
                     _start = DateTime.MinValue;
                     return;
                 }
-                Logger.Log("less than 30 seconds passed");
+                Logger.Log("less than 30 seconds passed");                
             }
         }
     }
