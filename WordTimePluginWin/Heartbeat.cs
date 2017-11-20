@@ -14,11 +14,15 @@ namespace WordTimePluginWin {
         private string _documentName;
         private string _fullName;
         private DateTime _start;
+        private Messager _messager;
 
         public Heartbeat()
         {
+            _messager = new Messager();
+
             _documentName = "";
             _fullName = "";
+            
         }
 
         public void Send(ref Document document) {
@@ -38,7 +42,7 @@ namespace WordTimePluginWin {
                     this._fullName = document.FullName;
                    
                     // TODO: Send heartbeat to message broker
-                    Task.Run(() => Messager.Send(_documentName));
+                    Task.Run(() => _messager.Send(_documentName));
 
                     Logger.Log("_documentName: " + _documentName);
                     Logger.Log("_fullName: " + _fullName);
@@ -46,6 +50,7 @@ namespace WordTimePluginWin {
                     _start = DateTime.MinValue;
                     return;
                 }
+                Task.Run(() => _messager.Send(_documentName));
                 Logger.Log("less than 30 seconds passed");                
             }
         }
