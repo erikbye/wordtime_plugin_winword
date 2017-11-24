@@ -4,16 +4,13 @@ using Microsoft.Office.Tools.Word;
 using WordInterop = Microsoft.Office.Interop.Word;
 using Office = Microsoft.Office.Core;
 
-namespace WordTimePluginWin
-{
-    public partial class ThisAddIn
-    {
-        private readonly Heartbeat _heartbeat = new Heartbeat();
+namespace WordTimePluginWin {
+    public partial class ThisAddIn {
+        EventForwarder eventForwarder;
 
         #region Add-in and document events
 
-        private void ThisAddIn_Startup(object sender, EventArgs e)
-        {            
+        private void ThisAddIn_Startup(object sender, EventArgs e) {            
             // TODO 1: Check if user reaches server, if not, display a message in the statusbar
             // and let user know time stamps will be stored locally and sent 
             // to server when they are back online
@@ -25,23 +22,22 @@ namespace WordTimePluginWin
             Application.DocumentBeforeClose += DocumentBeforeClose;            
             ((WordInterop.ApplicationEvents4_Event)Application).NewDocument += DocumentSelectionChange;
 
+            eventForwarder = new EventForwarder();
+
             Logger.Log("WordTime loaded");
         }
 
-        private void ThisAddIn_Shutdown(object sender, EventArgs e)
-        {
+        private void ThisAddIn_Shutdown(object sender, EventArgs e) {
             Logger.Log("WordTime shutdown");
         }
 
-        private void DocumentBeforeSave(WordInterop.Document doc, ref bool saveasui, ref bool cancel)
-        {
+        private void DocumentBeforeSave(WordInterop.Document doc, ref bool saveasui, ref bool cancel) {
             var vstoDoc = Globals.Factory.GetVstoObject(Application.ActiveDocument);
             vstoDoc.BeforeSave += ThisDocument_BeforeSave;
         }
         
         // TODO: triggers twice on save, and not on save as
-        private void ThisDocument_BeforeSave(object sender, SaveEventArgs e)
-        {
+        private void ThisDocument_BeforeSave(object sender, SaveEventArgs e) {
             var docProperties = (Office.DocumentProperties) Application.ActiveDocument.BuiltInDocumentProperties;
             var totalEditingTime = docProperties["Total editing time"];
 
@@ -55,8 +51,7 @@ namespace WordTimePluginWin
             }            
         }
 
-        private void DocumentSelectionChange(WordInterop.Document doc)
-        {            
+        private void DocumentSelectionChange(WordInterop.Document doc) {            
             var vstoDoc = Globals.Factory.GetVstoObject(Application.ActiveDocument);
             vstoDoc.SelectionChange += ThisDocument_SelectionChange;
         }
@@ -66,25 +61,21 @@ namespace WordTimePluginWin
         /// (newline), and arrow keys, but not on backspace, nor if you just 
         /// keep typing without using return.
         /// </summary>
-        private void ThisDocument_SelectionChange(object sender, SelectionEventArgs e)
-        {
+        private void ThisDocument_SelectionChange(object sender, SelectionEventArgs e) {
             var document = Application.ActiveDocument;
             var documentName = Application.ActiveDocument.Name;
             
-            _heartbeat.Send(ref document);
-
+            eventForwarder.Forward(ref document);
             Logger.Log("Selection changed, working on document " + documentName);
         }
 
-        private void DocumentBeforeClose(WordInterop.Document doc, ref bool cancel)
-        {
+        private void DocumentBeforeClose(WordInterop.Document doc, ref bool cancel) {
             var vstoDoc = Globals.Factory.GetVstoObject(Application.ActiveDocument);
             vstoDoc.BeforeClose += ThisDocument_BeforeClose;
         }
 
         // TODO: this doesn't seem to trigger, and Word seems to use too much time closing the document?
-        private void ThisDocument_BeforeClose(object sender, CancelEventArgs e)
-        {
+        private void ThisDocument_BeforeClose(object sender, CancelEventArgs e) {
             var documentName = Application.ActiveDocument.Name;
             Logger.Log("Document closed: " + documentName);
         }
@@ -105,8 +96,7 @@ namespace WordTimePluginWin
 
         #endregion
 
-        protected override Office.IRibbonExtensibility CreateRibbonExtensibilityObject()
-        {
+        protected override Office.IRibbonExtensibility CreateRibbonExtensibilityObject() {
             return new Ribbon();
         }
     }

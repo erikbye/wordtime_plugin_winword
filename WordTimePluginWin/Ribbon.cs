@@ -33,23 +33,20 @@ using Word = Microsoft.Office.Interop.Word;
 
 // For more information, see the Ribbon XML documentation in the Visual Studio Tools for Office Help.
 
-namespace WordTimePluginWin
-{
+namespace WordTimePluginWin {
     [ComVisible(true)]
     public class Ribbon : Office.IRibbonExtensibility
     {
         private Office.IRibbonUI ribbon;
 
-        public Ribbon()
-        {
+        public Ribbon() {
             
 
         }
         
         #region IRibbonExtensibility Members
 
-        public string GetCustomUI(string ribbonID)
-        {
+        public string GetCustomUI(string ribbonID) {
             return GetResourceText("WordTimePluginWin.Ribbon.xml");
         }
 
@@ -58,8 +55,7 @@ namespace WordTimePluginWin
         #region Ribbon Callbacks
         //Create callback methods here. For more information about adding callback methods, visit https://go.microsoft.com/fwlink/?LinkID=271226
 
-        public void Ribbon_Load(Office.IRibbonUI ribbonUI)
-        {
+        public void Ribbon_Load(Office.IRibbonUI ribbonUI) {
             this.ribbon = ribbonUI;
         }
 
@@ -67,18 +63,13 @@ namespace WordTimePluginWin
 
         #region Helpers
 
-        private static string GetResourceText(string resourceName)
-        {
+        private static string GetResourceText(string resourceName) {
             Assembly asm = Assembly.GetExecutingAssembly();
             string[] resourceNames = asm.GetManifestResourceNames();
-            for (int i = 0; i < resourceNames.Length; ++i)
-            {
-                if (string.Compare(resourceName, resourceNames[i], StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    using (StreamReader resourceReader = new StreamReader(asm.GetManifestResourceStream(resourceNames[i])))
-                    {
-                        if (resourceReader != null)
-                        {
+            for (int i = 0; i < resourceNames.Length; ++i) {
+                if (string.Compare(resourceName, resourceNames[i], StringComparison.OrdinalIgnoreCase) == 0) {
+                    using (StreamReader resourceReader = new StreamReader(asm.GetManifestResourceStream(resourceNames[i]))) {
+                        if (resourceReader != null) {
                             return resourceReader.ReadToEnd();
                         }
                     }
@@ -89,8 +80,7 @@ namespace WordTimePluginWin
 
         #endregion
 
-        public stdole.IPictureDisp GetCustomImage(string name)
-        {
+        public stdole.IPictureDisp GetCustomImage(string name) {
             var image = (Bitmap) Resources.ResourceManager.GetObject(name);
             return image != null ? PictureConverter.ImageToPictureDisp(image) : null;
         }
@@ -139,11 +129,8 @@ namespace WordTimePluginWin
         #endregion
     }
 
-    internal class PictureConverter : AxHost
-    {
-        public PictureConverter()
-            : base(string.Empty)
-        {
+    internal class PictureConverter : AxHost {
+        public PictureConverter() : base(string.Empty) {
         }
 
         public static stdole.IPictureDisp ImageToPictureDisp(Image image) => (stdole.IPictureDisp) GetIPictureDispFromPicture(image);

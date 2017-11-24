@@ -106,6 +106,9 @@
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.1.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.28\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="RabbitMQ.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
       <HintPath>..\packages\RabbitMQ.Client.5.0.1\lib\net451\RabbitMQ.Client.dll</HintPath>
     </Reference>
@@ -166,6 +169,7 @@
   -->
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="EventForwarder.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Forms\AboutForm.cs">
       <SubType>Form</SubType>
@@ -197,7 +201,6 @@
     <Compile Include="Forms\TourForm.Designer.cs">
       <DependentUpon>TourForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Heartbeat.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Messager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
