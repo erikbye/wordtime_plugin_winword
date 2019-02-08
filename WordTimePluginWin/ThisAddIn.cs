@@ -25,6 +25,9 @@ namespace WordTimePluginWin {
             eventForwarder = new EventForwarder();
 
             Logger.Log("WordTime loaded");
+            
+            Database.Instance.Connect();
+
         }
 
         private void ThisAddIn_Shutdown(object sender, EventArgs e) {
@@ -32,8 +35,18 @@ namespace WordTimePluginWin {
         }
 
         private void DocumentBeforeSave(WordInterop.Document doc, ref bool saveasui, ref bool cancel) {
-            var vstoDoc = Globals.Factory.GetVstoObject(Application.ActiveDocument);
-            vstoDoc.BeforeSave += ThisDocument_BeforeSave;
+
+            try
+            {
+                // wrapped this in try/catch since I got exception when document is not available/open
+                var vstoDoc = Globals.Factory.GetVstoObject(Application.ActiveDocument);
+                vstoDoc.BeforeSave += ThisDocument_BeforeSave;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }              
         }
         
         // TODO: triggers twice on save, and not on save as
@@ -66,7 +79,8 @@ namespace WordTimePluginWin {
             var documentName = Application.ActiveDocument.Name;
             
             eventForwarder.Forward(ref document);
-            Logger.Log("Selection changed, working on document " + documentName);
+            Logger.Log("Selection changed, working on document " + documentName);            
+
         }
 
         private void DocumentBeforeClose(WordInterop.Document doc, ref bool cancel) {
